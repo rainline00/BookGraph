@@ -27,7 +27,7 @@ class YaneuraBookReader:
                     sfen=board.sfen(),
                     chosen_move_code=data[0],
                     expected_next_move_code=data[1],
-                    evaluation_value=data[2],
+                    evaluation_value=int(data[2]),
                     hash_with_move_number=self.hash_with_move_number,
                 )
                 # TODO: metadataのkeyを設定する

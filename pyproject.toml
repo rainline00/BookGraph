@@ -13,6 +13,7 @@ jaal = "^0.1.7"
 pandas = "^2.2.2"
 cshogi = {git = "https://github.com/TadaoYamaoka/cshogi"}
 nicegui = "^1.4.26"
+neo4j = "^5.20.0"
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"
