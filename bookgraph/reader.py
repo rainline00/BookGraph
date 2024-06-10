@@ -5,13 +5,19 @@ from cshogi import Board
 
 
 class YaneuraBookReader:
-    @classmethod
-    def from_generator(cls, generator: Generator[str, any, any]):
+    def __init__(self, hash_with_move_number=False) -> None:
+        self.hash_with_move_number = hash_with_move_number
+
+    def from_generator(self, generator: Generator[str, any, any]):
         board = Board(next(generator).lstrip("sfen ").rstrip())
         candidate_moves = []
         for line in generator:
             if line.startswith("sfen"):
-                yield Node(board=board, candidate_moves=candidate_moves)
+                yield Node(
+                    board=board,
+                    candidate_moves=candidate_moves,
+                    hash_with_move_number=self.hash_with_move_number,
+                )
                 board = Board(line.lstrip("sfen ").rstrip())
                 candidate_moves = []
             else:
@@ -22,6 +28,7 @@ class YaneuraBookReader:
                     chosen_move_code=data[0],
                     expected_next_move_code=data[1],
                     evaluation_value=data[2],
+                    hash_with_move_number=self.hash_with_move_number,
                 )
                 # TODO: metadataのkeyを設定する
                 if len(data) == 4:
@@ -32,19 +39,21 @@ class YaneuraBookReader:
                     }
                 candidate_moves.append(move)
         else:
-            yield Node(board=board, candidate_moves=candidate_moves)
+            yield Node(
+                board=board,
+                candidate_moves=candidate_moves,
+                hash_with_move_number=self.hash_with_move_number,
+            )
 
-    @classmethod
-    def from_str(cls, content: str):
-        yield from cls.from_generator((content.splitlines()))
+    def from_str(self, content: str):
+        yield from self.from_generator((content.splitlines()))
 
-    @classmethod
-    def from_file(cls, path: Path | str):
+    def from_file(self, path: Path | str):
         if isinstance(path, str):
             path = Path(path)
         assert isinstance(path, Path)
         with open(path, mode="r") as f_db:
-            yield from cls.from_generator(f_db)
+            yield from self.from_generator(f_db)
 
 
 if __name__ == "__main__":

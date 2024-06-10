@@ -10,8 +10,9 @@ packages = [{ include = "bookgraph" }]
 [tool.poetry.dependencies]
 python = ">=3.12.0, <3.13"
 jaal = "^0.1.7"
-cshogi = "^0.8.5"
 pandas = "^2.2.2"
+cshogi = {git = "https://github.com/TadaoYamaoka/cshogi"}
+nicegui = "^1.4.26"
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.0.0"
